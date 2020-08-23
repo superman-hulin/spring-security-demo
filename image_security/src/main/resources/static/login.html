@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form class="form-signin" action="/userlogin"  method="post">
+    <h1 class="h3 mb-3 font-weight-normal" >Please sign in</h1>
+    <table>
+    <tr>
+        <td><label class="sr-only" >Username</label></td>
+    <td><input type="text"  name="username" class="form-control" placeholder="Username" required="" autofocus=""></td>
+    </tr>
+        <tr>
+    <td><label class="sr-only" >Password</label></td>
+    <td><input type="password" name="password" class="form-control" placeholder="Password"  required=""></td>
+        </tr>
+        <tr>
+            <td>图形验证码：</td>
+            <td>
+                <input type="text" name="imageCode">
+                <img src="/code/image">
+            </td>
+        </tr>
+    </table>
+    <button class="btn btn-lg btn-primary btn-block" type="submit" >Sign in</button>
+</form>
+</body>
+</html>
