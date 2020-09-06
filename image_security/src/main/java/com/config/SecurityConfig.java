@@ -1,5 +1,6 @@
 package com.config;
 
+import com.config.authorizeConfig.AuthorizeConfigManager;
 import com.filter.ImageCodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -67,7 +68,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private ImageCodeFilter imageCodeFilter;
     @Autowired
     private SecurityPropertiesConfig securityProperties;
-
+    @Autowired
+    private AuthorizeConfigManager authorizeConfigManager; //自己写的收集所有授权配置相关的provider类
     @Override
     protected void configure(HttpSecurity http) throws Exception {
          http.addFilterBefore(imageCodeFilter,UsernamePasswordAuthenticationFilter.class) //将图形验证码过滤器设置到前面
@@ -87,6 +89,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                  .and()
                 .csrf().disable();
+         /*将上面的
+         .authorizeRequests() //代表下面都是授权的配置
+                .antMatchers(
+                        "/authentication/require",securityProperties.getLoginPage()
+                        ,"/code/*","/register.html","/register").permitAll()//这是代表这些请求无需登录
+                .antMatchers(HttpMethod.GET,"/user/*").hasRole("ADMIN")//这是代表该请求不仅看是否登录还要看该用户是不是有ADMIN权限
+                //权限是在userDetailService中给用户
+                .anyRequest() //代表除了上面之外的任何请求
+                .authenticated()
+          这些授权配置全部剥离出去
+                */
+        authorizeConfigManager.config(http.authorizeRequests());
 
     }
 
